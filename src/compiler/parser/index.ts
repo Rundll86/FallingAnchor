@@ -44,19 +44,19 @@ export class Parser {
         const token = this.current();
 
         switch (token.type) {
-            case TokenType.HOOK:
-                return this.parseHookStatement();
-            case TokenType.VAR:
-                return this.parseVariableDeclaration();
-            case TokenType.WHILE:
-                return this.parseWhileStatement();
-            case TokenType.DOLLAR:
-                return this.parseFunctionDefinition();
-            case TokenType.IDENT:
-                return this.parseExpressionStatement();
-            default:
-                this.pos++;
-                return null;
+        case TokenType.HOOK:
+            return this.parseHookStatement();
+        case TokenType.VAR:
+            return this.parseVariableDeclaration();
+        case TokenType.WHILE:
+            return this.parseWhileStatement();
+        case TokenType.DOLLAR:
+            return this.parseFunctionDefinition();
+        case TokenType.IDENT:
+            return this.parseExpressionStatement();
+        default:
+            this.pos++;
+            return null;
         }
     }
 
@@ -97,11 +97,7 @@ export class Parser {
         return { type: NodeType.VARIABLE_DECLARATION, name, varType, initializer };
     }
 
-    private parseWhileStatement(): WhileStatement {
-        this.expect(TokenType.WHILE);
-        this.expect(TokenType.LPAREN);
-        const condition = this.parseExpression();
-        this.expect(TokenType.RPAREN);
+    private parseBlock(): ASTNode[] {
         this.expect(TokenType.LBRACE);
 
         const body: ASTNode[] = [];
@@ -113,6 +109,16 @@ export class Parser {
         }
 
         this.expect(TokenType.RBRACE);
+        return body;
+    }
+
+    private parseWhileStatement(): WhileStatement {
+        this.expect(TokenType.WHILE);
+        this.expect(TokenType.LPAREN);
+        const condition = this.parseExpression();
+        this.expect(TokenType.RPAREN);
+        const body = this.parseBlock();
+
         return { type: NodeType.WHILE_STATEMENT, condition, body };
     }
 
@@ -135,17 +141,7 @@ export class Parser {
         }
 
         this.expect(TokenType.RPAREN);
-        this.expect(TokenType.LBRACE);
-
-        const body: ASTNode[] = [];
-        while (!this.check(TokenType.RBRACE) && !this.isAtEnd()) {
-            const stmt = this.parseStatement();
-            if (stmt) {
-                body.push(stmt);
-            }
-        }
-
-        this.expect(TokenType.RBRACE);
+        const body = this.parseBlock();
 
         return { type: NodeType.FUNCTION_DEFINITION, name, params, returnType, body, exported: true };
     }

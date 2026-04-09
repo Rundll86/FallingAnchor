@@ -27,7 +27,7 @@ export class Lexer {
 
             const char = this.source[this.pos];
 
-            if (char === '"') {
+            if (char === "\"") {
                 this.readString();
             } else if (this.isDigit(char)) {
                 this.readNumber();
@@ -60,7 +60,7 @@ export class Lexer {
     private readString(): void {
         this.pos++;
         const start = this.pos;
-        while (this.pos < this.source.length && this.source[this.pos] !== '"') {
+        while (this.pos < this.source.length && this.source[this.pos] !== "\"") {
             this.pos++;
         }
         const value = this.source.slice(start, this.pos);
@@ -90,78 +90,78 @@ export class Lexer {
     private readOperator(): void {
         const char = this.source[this.pos];
         switch (char) {
-            case "(":
-                this.tokens.push({ type: TokenType.LPAREN, value: "(" });
+        case "(":
+            this.tokens.push({ type: TokenType.LPAREN, value: "(" });
+            this.pos++;
+            break;
+        case ")":
+            this.tokens.push({ type: TokenType.RPAREN, value: ")" });
+            this.pos++;
+            break;
+        case "{":
+            this.tokens.push({ type: TokenType.LBRACE, value: "{" });
+            this.pos++;
+            break;
+        case "}":
+            this.tokens.push({ type: TokenType.RBRACE, value: "}" });
+            this.pos++;
+            break;
+        case ";":
+            this.tokens.push({ type: TokenType.SEMICOLON, value: ";" });
+            this.pos++;
+            break;
+        case ",":
+            this.tokens.push({ type: TokenType.COMMA, value: "," });
+            this.pos++;
+            break;
+        case "=":
+            if (this.peek() === ">") {
+                this.pos += 2;
+                this.tokens.push({ type: TokenType.ARROW, value: "->" });
+            } else {
+                this.tokens.push({ type: TokenType.ASSIGN, value: "=" });
                 this.pos++;
-                break;
-            case ")":
-                this.tokens.push({ type: TokenType.RPAREN, value: ")" });
+            }
+            break;
+        case "<":
+            this.tokens.push({ type: TokenType.LT, value: "<" });
+            this.pos++;
+            break;
+        case ">":
+            this.tokens.push({ type: TokenType.GT, value: ">" });
+            this.pos++;
+            break;
+        case ".":
+            this.tokens.push({ type: TokenType.DOT, value: "." });
+            this.pos++;
+            break;
+        case "+":
+            this.tokens.push({ type: TokenType.PLUS, value: "+" });
+            this.pos++;
+            break;
+        case "-":
+            if (this.peek() === ">") {
+                this.pos += 2;
+                this.tokens.push({ type: TokenType.ARROW, value: "->" });
+            } else {
+                this.tokens.push({ type: TokenType.MINUS, value: "-" });
                 this.pos++;
-                break;
-            case "{":
-                this.tokens.push({ type: TokenType.LBRACE, value: "{" });
-                this.pos++;
-                break;
-            case "}":
-                this.tokens.push({ type: TokenType.RBRACE, value: "}" });
-                this.pos++;
-                break;
-            case ";":
-                this.tokens.push({ type: TokenType.SEMICOLON, value: ";" });
-                this.pos++;
-                break;
-            case ",":
-                this.tokens.push({ type: TokenType.COMMA, value: "," });
-                this.pos++;
-                break;
-            case "=":
-                if (this.peek() === ">") {
-                    this.pos += 2;
-                    this.tokens.push({ type: TokenType.ARROW, value: "->" });
-                } else {
-                    this.tokens.push({ type: TokenType.ASSIGN, value: "=" });
-                    this.pos++;
-                }
-                break;
-            case "<":
-                this.tokens.push({ type: TokenType.LT, value: "<" });
-                this.pos++;
-                break;
-            case ">":
-                this.tokens.push({ type: TokenType.GT, value: ">" });
-                this.pos++;
-                break;
-            case ".":
-                this.tokens.push({ type: TokenType.DOT, value: "." });
-                this.pos++;
-                break;
-            case "+":
-                this.tokens.push({ type: TokenType.PLUS, value: "+" });
-                this.pos++;
-                break;
-            case "-":
-                if (this.peek() === ">") {
-                    this.pos += 2;
-                    this.tokens.push({ type: TokenType.ARROW, value: "->" });
-                } else {
-                    this.tokens.push({ type: TokenType.MINUS, value: "-" });
-                    this.pos++;
-                }
-                break;
-            case "*":
-                this.tokens.push({ type: TokenType.STAR, value: "*" });
-                this.pos++;
-                break;
-            case "/":
-                this.tokens.push({ type: TokenType.SLASH, value: "/" });
-                this.pos++;
-                break;
-            case "$":
-                this.tokens.push({ type: TokenType.DOLLAR, value: "$" });
-                this.pos++;
-                break;
-            default:
-                this.pos++;
+            }
+            break;
+        case "*":
+            this.tokens.push({ type: TokenType.STAR, value: "*" });
+            this.pos++;
+            break;
+        case "/":
+            this.tokens.push({ type: TokenType.SLASH, value: "/" });
+            this.pos++;
+            break;
+        case "$":
+            this.tokens.push({ type: TokenType.DOLLAR, value: "$" });
+            this.pos++;
+            break;
+        default:
+            this.pos++;
         }
     }
 

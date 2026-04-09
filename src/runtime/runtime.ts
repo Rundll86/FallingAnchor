@@ -46,20 +46,20 @@ export class Runtime {
 
     private executeNode(node: ASTNode): RuntimeValue {
         switch (node.type) {
-            case NodeType.HOOK_STATEMENT:
-                return this.executeHookStatement(node as HookStatement);
-            case NodeType.HOOK_PULLOUT_STATEMENT:
-                return this.executeHookPulloutStatement(node as HookPulloutStatement);
-            case NodeType.VARIABLE_DECLARATION:
-                return this.executeVariableDeclaration(node as VariableDeclaration);
-            case NodeType.WHILE_STATEMENT:
-                return this.executeWhileStatement(node as WhileStatement);
-            case NodeType.EXPRESSION_STATEMENT:
-                return this.executeExpressionStatement(node as ExpressionStatement);
-            case NodeType.FUNCTION_DEFINITION:
-                return this.executeFunctionDefinition(node as FunctionDefinition);
-            default:
-                return null;
+        case NodeType.HOOK_STATEMENT:
+            return this.executeHookStatement(node as HookStatement);
+        case NodeType.HOOK_PULLOUT_STATEMENT:
+            return this.executeHookPulloutStatement(node as HookPulloutStatement);
+        case NodeType.VARIABLE_DECLARATION:
+            return this.executeVariableDeclaration(node as VariableDeclaration);
+        case NodeType.WHILE_STATEMENT:
+            return this.executeWhileStatement(node as WhileStatement);
+        case NodeType.EXPRESSION_STATEMENT:
+            return this.executeExpressionStatement(node as ExpressionStatement);
+        case NodeType.FUNCTION_DEFINITION:
+            return this.executeFunctionDefinition(node as FunctionDefinition);
+        default:
+            return null;
         }
     }
 
@@ -97,22 +97,22 @@ export class Runtime {
 
     private evaluateExpression(expr: Expression): RuntimeValue {
         switch (expr.type) {
-            case NodeType.NUMBER_LITERAL:
-                return (expr as NumberLiteral).value;
-            case NodeType.STRING_LITERAL:
-                return (expr as StringLiteral).value;
-            case NodeType.IDENTIFIER:
-                return this.evaluateIdentifier(expr as Identifier);
-            case NodeType.BINARY_EXPRESSION:
-                return this.evaluateBinaryExpression(expr as BinaryExpression);
-            case NodeType.FUNCTION_CALL:
-                return this.evaluateFunctionCall(expr as FunctionCall);
-            case NodeType.MEMBER_ACCESS:
-                return this.evaluateMemberAccess(expr as MemberAccess);
-            case NodeType.TYPE_CAST:
-                return this.evaluateTypeCast(expr as TypeCast);
-            default:
-                return null;
+        case NodeType.NUMBER_LITERAL:
+            return (expr as NumberLiteral).value;
+        case NodeType.STRING_LITERAL:
+            return (expr as StringLiteral).value;
+        case NodeType.IDENTIFIER:
+            return this.evaluateIdentifier(expr as Identifier);
+        case NodeType.BINARY_EXPRESSION:
+            return this.evaluateBinaryExpression(expr as BinaryExpression);
+        case NodeType.FUNCTION_CALL:
+            return this.evaluateFunctionCall(expr as FunctionCall);
+        case NodeType.MEMBER_ACCESS:
+            return this.evaluateMemberAccess(expr as MemberAccess);
+        case NodeType.TYPE_CAST:
+            return this.evaluateTypeCast(expr as TypeCast);
+        default:
+            return null;
         }
     }
 
@@ -126,18 +126,18 @@ export class Runtime {
 
         if (typeof left === "number" && typeof right === "number") {
             switch (expr.operator) {
-                case "+":
-                    return left + right;
-                case "-":
-                    return left - right;
-                case "*":
-                    return left * right;
-                case "/":
-                    return left / right;
-                case "<":
-                    return left < right ? 1 : 0;
-                case ">":
-                    return left > right ? 1 : 0;
+            case "+":
+                return left + right;
+            case "-":
+                return left - right;
+            case "*":
+                return left * right;
+            case "/":
+                return left / right;
+            case "<":
+                return left < right ? 1 : 0;
+            case ">":
+                return left > right ? 1 : 0;
             }
         }
 
