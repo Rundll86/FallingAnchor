@@ -1,0 +1,5 @@
+hook "stdout" pullout write,read; #从库stdout导入符号write和read
+
+write("hello"); #调用write函数，向stdout输出“hello”
+var string data=read(); #创建string类型的变量名为data，初始值为read()函数的返回值
+write(data); #将变量data的值输出

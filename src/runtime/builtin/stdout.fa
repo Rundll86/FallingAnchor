@@ -1,0 +1,1 @@
+$ define void write(string data){} #定义write函数，接收类型为string的参数data，$代表这个符号将会被当前模块导出，其他模块可以导入
