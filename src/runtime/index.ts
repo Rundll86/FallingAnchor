@@ -1,3 +1,1 @@
-export class Runtime {
-    //
-}
+export { Runtime } from "./runtime";
